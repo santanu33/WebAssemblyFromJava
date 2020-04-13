@@ -16,6 +16,8 @@
         <teavm.test.incremental>false</teavm.test.incremental>
         <teavm.test.threads>1</teavm.test.threads>
         <teavm.test.skip>true</teavm.test.skip>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
     <distributionManagement>

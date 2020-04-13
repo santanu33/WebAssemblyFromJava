@@ -1,11 +1,25 @@
-if ('WebAssembly' in window) {
-  // Set the import object in instantiateStreaming
-  WebAssembly.instantiateStreaming(fetch('wasm/classes.wasm'))
-  .then(result => {
+var fs = require('fs');
+var source = fs.readFileSync('./wasm/classes.wasm');
+var typedArray = new Uint8Array(source);
 
-  //the Purpse of Life is:
-	result = result.instance.exports.thePurposeOfLife();
-	document.getElementById('wasm').innerHTML =
-	'The Purpose of life according to teavm wasm from java: ' + result;
-  });
+const env = {
+  memoryBase: 0,
+  tableBase: 0,
+  memory: new WebAssembly.Memory({
+    initial: 256
+  }),
+  table: new WebAssembly.Table({
+    initial: 0,
+    element: 'anyfunc'
+  })
 }
+
+WebAssembly.instantiate(typedArray, {
+  env: env
+  }).then(result => {
+    result = result.instance.exports.thePurposeOfLife();
+    console.log(result);
+  }).catch(e => {
+  // error caught
+  console.log(e);
+});
