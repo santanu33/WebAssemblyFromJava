@@ -1,0 +1,24 @@
+name: Scala CI
+
+on:
+ workflow_dispatch:
+   inputs:
+     env:
+       description: 'environment to deploy. dev | test | stage | prod'
+       required: true
+     git-ref:
+       description: Git Ref (default latest Master)
+       required: true
+
+env:
+  COMMIT_HASH: ${{ github.event.inputs.git-ref != '' && github.event.inputs.git-ref || github.sha }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name:  checkout git ref ${{ env.COMMIT_HASH }}
+      uses: actions/checkout@v2
+    
